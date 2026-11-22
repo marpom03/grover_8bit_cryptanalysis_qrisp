@@ -2,7 +2,7 @@
 
 ## 1. Definicja wyroczni
 
-Wyrocznia będzie identyfikować klucze 8-bitowego szyfru blokowego MiniFeistel-8, które dla znanego tekstu jawnego $P$ generują oczekiwany szyfrogram $C$.
+Wyrocznia będzie identyfikować kluczeuproszczonego 8-bitowego szyfru blokowego opartego na sieci Feistela, które dla znanego tekstu jawnego $P$ generują oczekiwany szyfrogram $C$.
 
 Warunek poprawności klucza:
 
@@ -37,8 +37,8 @@ Wyrocznia będzie wykorzystywać następujące rejestry kwantowe:
 | Rejestr | Rozmiar | Przeznaczenie |
 |---|---|---|
 | `key_register` | 8 kubitów | Reprezentacja kandydatów na klucz |
-| `left` | 4 kubity | Lewa połowa bloku MiniFeistel-8 |
-| `right` | 4 kubity | Prawa połowa bloku MiniFeistel-8 |
+| `left` | 4 kubity | Lewa połowa bloku szyfru |
+| `right` | 4 kubity | Prawa połowa bloku szyfru |
 | `ancilla` (opcjonalny) | Zależny od implementacji | Kubity pomocnicze wykorzystywane podczas porównywania i oznaczania stanów |
 
 Rejestry `left` i `right` reprezentują łącznie 8-bitowy blok danych. Po wykonaniu szyfrowania przechowują odpowiednio starsze i młodsze cztery bity szyfrogramu.
@@ -53,7 +53,7 @@ Rejestr `key_register` będzie reprezentowany przez `QuantumFloat(8)`, zgodnie z
                     v
         +-----------------------+
         | Odwracalne szyfrowanie|
-        |     MiniFeistel-8     |
+        |   w sieci Feistela    |
         +-----------------------+
                     |
                     v
@@ -89,7 +89,7 @@ Wyrocznia będzie realizowana w czterech etapach.
 
 ### 3.1. Szyfrowanie
 
-Odwracalny obwód MiniFeistel-8 oblicza szyfrogram dla kluczy reprezentowanych przez rejestr `key_register`.
+Odwracalny obwód kwantowy uproszczonego szyfru opartego na sieci Feistela oblicza szyfrogram dla kluczy reprezentowanych przez rejestr key_register.
 
 $$
 |K\rangle|P\rangle
