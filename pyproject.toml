@@ -1,0 +1,9 @@
+[project]
+name = "grover-8bit-cryptanalysis-qrisp"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "qrisp>=0.9.10",
+]
