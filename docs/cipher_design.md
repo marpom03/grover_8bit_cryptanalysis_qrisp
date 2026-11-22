@@ -107,13 +107,13 @@ Harmonogram jest deterministyczny i nie wymaga dodatkowych danych ani losowości
 Funkcja rundy wykorzystuje cykliczne przesunięcie czterobitowej wartości $R$ o jeden bit w lewo:
 
 $$
-\operatorname{ROTL}_4(R,1)=((R\ll1)\lor(R\gg3))\land 15
+{ROTL}_4(R,1)=((R\ll1)\lor(R\gg3))\land 15
 $$
 
 Funkcję rundy zdefiniowano jako:
 
 $$
-F(R,K_i)=\bigl(R\land\operatorname{ROTL}_4(R,1)\bigr)\oplus K_i
+F(R,K_i)=\bigl(R\land\{ROTL}_4(R,1)\bigr)\oplus K_i
 $$
 
 gdzie:
