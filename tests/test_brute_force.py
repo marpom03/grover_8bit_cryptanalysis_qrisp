@@ -1,21 +1,17 @@
 import unittest
 
-from src.brute_force import encrypt, brute_force, rotl4
+from src.brute_force import brute_force
+from src.cipher import encrypt
 
 
-class TestMiniFeistel8(unittest.TestCase):
+class TestBruteForce(unittest.TestCase):
 
-    def test_rotation(self):
-        self.assertEqual(rotl4(0b0010), 0b0100)
-        self.assertEqual(rotl4(0b1101), 0b1011)
-
-    def test_known_encryption(self):
-        self.assertEqual(encrypt(0xB2, 0x6D), 0x62)
-
-    def test_brute_force(self):
+    def test_known_key_recovery(self):
+        """Recover the key from the reference plaintext-ciphertext pair."""
         self.assertEqual(brute_force(0xB2, 0x62), [0x6D])
 
-    def test_key_recovery(self):
+    def test_all_keys_recovery(self):
+        """Verify that every key can be recovered."""
         plaintext = 0xB2
 
         for key in range(256):
@@ -24,13 +20,15 @@ class TestMiniFeistel8(unittest.TestCase):
 
             self.assertIn(key, recovered_keys)
 
-    def test_invalid_key(self):
-        with self.assertRaises(ValueError):
-            encrypt(0xB2, 256)
-
     def test_invalid_plaintext(self):
+        """Reject plaintext values outside the 8-bit range."""
         with self.assertRaises(ValueError):
-            encrypt(256, 0x6D)
+            brute_force(256, 0x62)
+
+    def test_invalid_ciphertext(self):
+        """Reject ciphertext values outside the 8-bit range."""
+        with self.assertRaises(ValueError):
+            brute_force(0xB2, 256)
 
 
 if __name__ == "__main__":

@@ -1,46 +1,11 @@
-def rotl4(value):
-    """Rotate a 4-bit value left by one position."""
-    return ((value << 1) | (value >> 3)) & 0xF
-
-
-def round_function(right, subkey):
-    """MiniFeistel-8 round function."""
-    return (right & rotl4(right)) ^ subkey
-
-
-def encrypt(plaintext, key):
-    """Encrypt an 8-bit plaintext using an 8-bit key."""
-
-    if not 0 <= plaintext <= 0xFF:
-        raise ValueError("Plaintext must be an 8-bit value")
-
-    if not 0 <= key <= 0xFF:
-        raise ValueError("Key must be an 8-bit value")
-
-    # Split plaintext into two 4-bit halves
-    left = (plaintext >> 4) & 0xF
-    right = plaintext & 0xF
-
-    # Generate three round keys
-    key_high = (key >> 4) & 0xF
-    key_low = key & 0xF
-
-    round_keys = [
-        key_high,
-        key_low,
-        key_high ^ key_low,
-    ]
-
-    # Perform three Feistel rounds
-    for subkey in round_keys:
-        left, right = right, left ^ round_function(right, subkey)
-
-    # Combine the halves without an additional swap
-    return (left << 4) | right
+from src.cipher import encrypt
 
 
 def brute_force(plaintext, expected_ciphertext):
     """Return all keys matching the known plaintext-ciphertext pair."""
+
+    if not 0 <= plaintext <= 0xFF:
+        raise ValueError("Plaintext must be an 8-bit value")
 
     if not 0 <= expected_ciphertext <= 0xFF:
         raise ValueError("Ciphertext must be an 8-bit value")
